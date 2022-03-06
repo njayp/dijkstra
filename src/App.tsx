@@ -84,20 +84,28 @@ function App() {
 
   return (
     <Box sx={{ display: "flex", m: 2, p: 2 }}>
-      <Stack direction={"row"} spacing={2}>
-        <TextField
-          multiline
-          label="Input"
-          defaultValue={defaultInput}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <TextField
-          disabled
-          id="outlined-disabled"
-          label="Output"
-          value={output}
-        />
-        <Button onClick={onClick}>Calculate Shortest Path</Button>
+      <Stack spacing={2}>
+        <Box>
+          This program calculates the shortest distance between 's' and 'e' from
+          the list of inputs "(from) (to) (distance)\n". No error handling.
+        </Box>
+        <Stack direction={"row"} spacing={2}>
+          <TextField
+            multiline
+            label="Input"
+            defaultValue={defaultInput}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <TextField
+            InputProps={{
+              readOnly: true,
+            }}
+            id="outlined-disabled"
+            label="Output"
+            value={output}
+          />
+          <Button onClick={onClick}>Calculate Shortest Path</Button>
+        </Stack>
       </Stack>
     </Box>
   );
