@@ -39,11 +39,16 @@ function App() {
       const from = splitLine[0];
       const to = splitLine[1];
       const cost = Number(splitLine[2]);
-      //
-      //
-      // TODO: construct the linked List
-      //
-      //
+      if (!linkList.has(from)) {
+        linkList.set(from, { name: from, edges: [] });
+      }
+      if (!linkList.has(to)) {
+        linkList.set(to, { name: to, edges: [] });
+      }
+      linkList.get(from)?.edges.push({
+        destination: linkList.get(to) || undefinedPoint,
+        cost: cost,
+      });
     }
     return {
       root: linkList.get("s") || undefinedPoint,
@@ -60,13 +65,23 @@ function App() {
 
     heap.push({ destination: root, cost: 0 });
     while (true) {
-      //
-      //
-      // TODO: pop the heap
-      // push updated edges onto heap
-      // call setOuput(cost) when pop == end
-      //
-      //
+      const minEdge = heap.pop() || undefinedEdge;
+      console.log(minEdge);
+
+      if (minEdge.destination.name === end.name) {
+        setOutput(minEdge.cost);
+        return;
+      }
+
+      if (!visited.includes(minEdge.destination)) {
+        visited.push(minEdge.destination);
+        for (const edge of minEdge.destination.edges) {
+          heap.push({
+            destination: edge.destination,
+            cost: edge.cost + minEdge.cost,
+          });
+        }
+      }
     }
   }
 
