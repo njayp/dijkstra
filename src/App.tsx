@@ -39,20 +39,22 @@ function App() {
       const from = splitLine[0];
       const to = splitLine[1];
       const cost = Number(splitLine[2]);
-      //
-      //
-      // TODO: construct the linked List
-      //
-      //
+      if (!points.has(from)) {
+        points.set(from, { name: from, edges: [] });
+      }
+      if (!points.has(to)) {
+        points.set(to, { name: to, edges: [] });
+      }
+      points.get(from)?.edges.push({
+        destination: points.get(to) || undefinedPoint,
+        cost: cost,
+      });
     }
-    return {
-      root: points.get("s") || undefinedPoint,
-      end: points.get("e") || undefinedPoint,
-    };
+    return points.get("s") || undefinedPoint;
   }
 
   function onClick() {
-    const { root, end } = makeLinkList(input);
+    const root = makeLinkList(input);
     const heap = new Heap(function (a: Edge, b: Edge) {
       return a.cost - b.cost;
     });
@@ -60,13 +62,23 @@ function App() {
 
     heap.push({ destination: root, cost: 0 });
     while (true) {
-      //
-      //
-      // TODO: pop the heap
-      // push updated edges onto heap
-      // call setOuput(cost) when pop == end
-      //
-      //
+      const minEdge = heap.pop() || undefinedEdge;
+      console.log(minEdge);
+
+      if (minEdge.destination.name === "e") {
+        setOutput(minEdge.cost);
+        return;
+      }
+
+      if (!visited.includes(minEdge.destination)) {
+        visited.push(minEdge.destination);
+        for (const edge of minEdge.destination.edges) {
+          heap.push({
+            destination: edge.destination,
+            cost: edge.cost + minEdge.cost,
+          });
+        }
+      }
     }
   }
 
