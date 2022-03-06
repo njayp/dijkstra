@@ -33,26 +33,26 @@ function App() {
   const [output, setOutput] = React.useState(-1);
 
   function makeLinkList(input: string) {
-    let linkList = new Map<string, Point>();
+    let points = new Map<string, Point>();
     for (const line of input.split("\n")) {
       const splitLine = line.split(" ");
       const from = splitLine[0];
       const to = splitLine[1];
       const cost = Number(splitLine[2]);
-      if (!linkList.has(from)) {
-        linkList.set(from, { name: from, edges: [] });
+      if (!points.has(from)) {
+        points.set(from, { name: from, edges: [] });
       }
-      if (!linkList.has(to)) {
-        linkList.set(to, { name: to, edges: [] });
+      if (!points.has(to)) {
+        points.set(to, { name: to, edges: [] });
       }
-      linkList.get(from)?.edges.push({
-        destination: linkList.get(to) || undefinedPoint,
+      points.get(from)?.edges.push({
+        destination: points.get(to) || undefinedPoint,
         cost: cost,
       });
     }
     return {
-      root: linkList.get("s") || undefinedPoint,
-      end: linkList.get("e") || undefinedPoint,
+      root: points.get("s") || undefinedPoint,
+      end: points.get("e") || undefinedPoint,
     };
   }
 

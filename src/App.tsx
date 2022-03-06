@@ -33,7 +33,7 @@ function App() {
   const [output, setOutput] = React.useState(-1);
 
   function makeLinkList(input: string) {
-    let linkList = new Map<string, Point>();
+    let points = new Map<string, Point>();
     for (const line of input.split("\n")) {
       const splitLine = line.split(" ");
       const from = splitLine[0];
@@ -46,8 +46,8 @@ function App() {
       //
     }
     return {
-      root: linkList.get("s") || undefinedPoint,
-      end: linkList.get("e") || undefinedPoint,
+      root: points.get("s") || undefinedPoint,
+      end: points.get("e") || undefinedPoint,
     };
   }
 
